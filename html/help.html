@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Help Page - Younger Lab Database</title>
+  <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+  <script type="text/javascript" charset="UTF-8" src="https://www.gstatic.com/charts/51/loader.js"></script>
+<link id="load-css-0" rel="stylesheet" type="text/css" href="https://www.gstatic.com/charts/51/css/core/tooltip.css">
+<link id="load-css-1" rel="stylesheet" type="text/css" href="https://www.gstatic.com/charts/51/css/util/util.css">
+<script type="text/javascript" charset="UTF-8" src="https://www.gstatic.com/charts/51/js/jsapi_compiled_default_module.js"></script>
+<script type="text/javascript" charset="UTF-8" src="https://www.gstatic.com/charts/51/js/jsapi_compiled_graphics_module.js"></script>
+<script type="text/javascript" charset="UTF-8" src="https://www.gstatic.com/charts/51/js/jsapi_compiled_ui_module.js"></script>
+<script type="text/javascript" charset="UTF-8" src="https://www.gstatic.com/charts/51/js/jsapi_compiled_corechart_module.js"></script>
+  <link rel="stylesheet" href="../css/style.css">
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <script src="../JavaScript/script.js"></script>
+
+  <style>
+  /* Additional CSS for hiding/showing sections */
+.hidden {
+  display: none;
+}
+
+/* Define the style for the table */
+#main .custom-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+#main .custom-table th,
+#main .custom-table td {
+  border: 1px solid #dddddd;
+  padding: 8px;
+  text-align: left;
+}
+
+#main .custom-table th {
+  background-color: gray; /* Set background color to white */
+  border: 1px solid #dddddd;
+  padding: 8px;
+  text-align: left;
+}
+
+#main .passage-date,
+#main .hatch-date,
+#main .sort-date {
+  text-align: center;
+}
+
+#container {
+  margin: 0 auto; /* Center the container horizontally */
+  width: 80%; /* Limit the width of the container */
+ 
+   /* Add right padding */
+}
+
+.collapsible {
+  background-color: #eee;
+  color: #444;
+  cursor: pointer;
+  padding: 12px; /* Reduce padding */
+  width: 100%; /* Reduce width */
+  border: 1px solid #ddd; /* Add border */
+  border-radius: 5px; /* Add rounded corners */
+  text-align: left;
+  outline: none;
+  font-size: 18px;
+  transition: background-color 0.4s ease;
+}
+
+.active,
+.collapsible:hover {
+  background-color: #ccc;
+}
+
+.content {
+  padding: 0 12px; /* Reduce padding */
+  display: none;
+  overflow: hidden;
+  background-color: #f9f9f9;
+  border: 1px solid #ddd; /* Add border */
+  border-top: none; /* Remove top border */
+  border-radius: 0 0 5px 5px; /* Add rounded corners only at the bottom */
+  transition: max-height 0.2s ease-out;
+  
+}
+   </style>
+
+</head>
+<body>
+  <div id="flex-container">
+  <div id="header-placeholder"></div>
+
+  <div id = "help-content">
+    <main id="help">
+        <div id="container">
+          <h2>Help Guide</h2>
+
+          <button class="collapsible">Lines</button>
+          <div class="content">
+            <h2>Active Lines</h2>
+            <p>Provides an overview of all actively maintained mosquito lines in the database.</p>
+            <h2>Retired</h2>
+            <p>Provides an overview of retired mosquito lines in the database.</p>
+            <h2>All Lines</h2>
+            <p>Provides a comprehensive overview of all mosquito lines in the database.</p>
+            <h2>Add New Line</h2>
+            <p>Complete the form to add a new mosquito line to the databsase.</p>
+          </div>
+          <button class="collapsible">Breeding</button>
+          <div class="content">
+            <h2>Sorting</h2>
+            <p>Table of all sorting form submissions.</p>
+            <h2>Passage </h2>
+            <p>Table of all passage form submissions.</p>
+            <h2>Clutch</h2>
+            <p>Table of all clutch form submissions</p>
+            <h2>Combined</h2>
+            <p>Table of sorting, passage, and clutch form entries joined by Line ID and hatch date.</p>
+          </div>
+    
+          <button class="collapsible">Forms</button>
+          <div class="content">
+            <h2>Passage Form</h2>
+            <p>
+                <b>Name:</b> input the name of the person filling the form.<br>
+                <b>Genoype:</b> select genotype of line passaged.<br>
+                <b>BC/IB Number:</b> input current inbreed or backcross number of the generation, adding +1 for the latest cross.<br>
+                <b>Hatch Date:</b> hatch date of the line passaged.<br>
+                <b>Passage Date:</b> input today's date.<br>
+                <b>Mating Line:</b> the the passage is crossing with.
+            </p>
+            <h2>Sorting Form</h2>
+            <p>
+              <b>Name:</b> input the name of the person filling the form.<br>
+              <b>Date Sorting:</b> input today's date.<br>
+              <b>Marker Location:</b> input location of fluorescent marker.<br>
+              <b>Ratio of fluorescent to non-fluorescent larvae:</b> approximate ratio using slider, with color representing fluorescent mosquitos.<br>
+              <b>Number of fluorescent animals sorted:</b> input total number of animals which were fluorescent.<br>
+              <b>Additional Notes:</b> open field for any relevant notes, such as male to female ratios.<br>
+            </p>
+            <h2>Clutch Form</h2>
+            <p>
+              <b>Name:</b> input the name of the person filling the form.<br>
+              <b>Genoype:</b> select genotype of line passaged.<br>
+              <b>Hatch Date:</b> input hatch date of the clutch.<br>
+              <b>Collection Date:</b> input date the eggs are collected.<br>
+              <b>Clutch number:</b> indicate the first, second, or third clutch laid by the hatched mosquitos.<br>
+              <b>Egg Papers:</b> input density of the eggs on the egg paper. See images below for reference.<br>
+<img src="../Images/eggs.png" width="1000px">
+            </p>
+          </div>
+    
+          <button class = "collapsible">Lab Users</button>
+          <div class = "content" >
+          <p>Displays all lab users registered for website operations.</p>
+          <h2>Add New User</h2>
+          <p>Complete the form to add a new lab user to the databsase.</p>
+          </div>
+          <button class="collapsible">Modify Tables</button>
+          <div class="content">
+            <p>After entering the administrator password, select the table to edit from the dropdown menu. Enter the sort, passage, or clutch ID of the row you want to edit in the first field, and allow the form to autopopulate with the current values in the table. The form allows users to freeform edit any field in the row. After editing the desired values, click submit. A confirmation message will appear on screen if changes were successful.</p>
+          </div>
+    
+          <button class="collapsible">Diagnostics</button>
+          <div class="content">
+            <h2>Clutch Wellness</h2>
+            <p>Displays graphs to track egg density over time for each strain.<br>
+              Egg density for individual clutches as well as all clutches combined can be displayed.</p>
+          </div>
+          
+        </div>
+      </div> 
+      </main>
+      <div id="footer"></div>
+  </div>
+  </body>
+</html>

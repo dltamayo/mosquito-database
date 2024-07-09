@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Passage Form - Younger Lab Database</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <script src="../JavaScript/script.js"></script>
+  <style>
+    .form-field {
+      margin-bottom: 10px;  
+    }
+    #notes {
+      width: 20%;         
+      padding: 10px;        
+    }
+    .main-content {
+      padding-left: 100px;
+    }
+    #notes-margin {
+      margin-bottom: 10px; 
+    }
+  </style>
+  <script>
+  $(document).ready(function() {
+    const today = new Date().toISOString().split('T')[0];
+  document.getElementById('collection-date').value = today;
+
+  const future = new Date(today);
+  future.setMonth(future.getMonth() + 2);
+  future.setDate(future.getDate() + 14);
+
+  // Set the input field value of next-passage to the combined date
+  $('#next-passage').val(future.toISOString().split('T')[0]);
+
+  function populate_list(dropdown, json, label) {
+    $(dropdown).empty();
+    // Append "Select" option with the specified label
+    $(dropdown).append('<option value="">' + label + '</option>');
+    json.forEach(function(item) {
+      let option = `<option value=${item[0]}>${item[1]}</option>`;
+      $(dropdown).append(option);
+    });
+  }
+
+
+    // AJAX request to populate Name and Genotype dropdowns
+    ['m_id_dropdown', 'l_id_dropdown'].forEach(selector => {
+    $.ajax({
+url: '../cgi-bin/dropdowns.py',
+      method: 'GET',
+      dataType: 'json',
+      data: { 'selector': selector },
+      success: function(data) {
+        // Determine label based on selector
+        let label = (selector === 'm_id_dropdown') ? 'Select Name' : 'Select Line';
+        populate_list(`#${selector === 'm_id_dropdown' ? 'm_id' : 'l_id'}`, data, label);
+      },
+      error: function(xhr, status, error) {
+        console.error(`Error fetching data for ${selector}:`, error);
+      }
+    });
+  });
+
+  $("#l_id").change(function() {
+        $.ajax({
+url: '../cgi-bin/dropdowns.py',
+          method: 'GET',
+          dataType: 'json',
+          data: { 'selector': 'hatch_date', 'l_id': this.value },
+          success: function(data) {
+            $("#hatch_date").val(data.default_date);
+          },
+          error: function(xhr, status, error) {
+            console.error('Error fetching hatch date:', error);
+          }
+        });
+
+        $.ajax({
+url: '../cgi-bin/dropdowns.py',
+      method: 'GET',
+      dataType: 'json',
+      data: {'selector': 'bc_ib', 'l_id': this.value},
+      success: function(response) {
+                // Log the selector value to debug
+                console.log('Received response:', response);
+                // console.log(result)
+                // array = response[0]
+                if (response.length > 0) {
+                  array = response[0];
+                  $("#bc-number").val(array[0]);
+                  $("#ib-number").val(array[1]);
+                } else {$("#bc-number").val(0);
+                  $("#ib-number").val(0)};
+      },
+      error: function(xhr, status, error) {
+          console.error('Error fetching bc, ib:', error);
+      }
+    });
+
+      });
+
+  $("#collection-date").change(function() {
+        const today = $(this).val(); // Get the value of the changed collection-date field
+        const future = new Date(today);
+        future.setMonth(future.getMonth() + 2);
+        future.setDate(future.getDate() + 14);
+
+        // Set the input field value of next-passage to the combined date
+        $('#next-passage').val(future.toISOString().split('T')[0]);
+    });
+
+    // Form submission with AJAX for seamless user experience
+    $('#passageForm').submit(function(event) {
+    event.preventDefault();
+    var formData = $(this).serializeArray();
+
+    var popupContent = '<h2>Preview Data</h2><ul>';
+    formData.forEach(function(field) {
+        popupContent += `<li><strong>${field.name}:</strong> ${field.value}</li>`;
+    });
+    popupContent += '</ul><button id="confirmButton">Confirm</button><button id="goBackButton">Go Back</button>';
+    $('#popupContent').html(popupContent);
+    $('.popup').show();
+});
+
+$(document).on('click', '#confirmButton', function() {
+    var formData = $('#passageForm').serializeArray();
+    $('.popup').hide();
+
+    $.ajax({
+        url: $('#passageForm').attr('action'), // Get the form action URL
+        method: 'POST', // Use POST method
+        data: formData, // Send form data
+        success: function(response) {
+            console.log('Form data submitted successfully:', response);
+            // Show success message popup
+            $('#popupContent').html('<h2>Submitted</h2><br><p>' + response + '</p><button id="closePopupButton">Close</button>');
+            $('.popup').show();
+        },
+        error: function(xhr, status, error) {
+            console.error('Error submitting form data:', error);
+            // Show error message popup
+            $('#popupContent').html('<h2>Error</h2><br><p>There was an error submitting the form.</p><p>' + error + '</p><button id="closePopupButton">Close</button>');
+            $('.popup').show();
+        }
+    });
+});
+
+$(document).on('click', '#goBackButton, #closePopupButton', function() {
+    $('.popup').hide();
+});
+  });
+  </script>
+</head>
+<body>
+  <div id="flex-container">
+  <div id='header-placeholder'></div>
+  <div class="main-content">
+    <main>
+        <h2>Passage Form</h2>
+        <br>
+<form id="passageForm" action="../cgi-bin/passage_insert.py" method="post">
+          <div class="form-field">
+            <label for="m_id">Name: <span class="required">*</span></label>
+            <select id="m_id" name="m_id" required></select><br><br>
+            <label for="genotype">Genotype: <span class="required">*</span></label>
+            <select id="l_id" name="l_id" required></select><br><br>
+            <label for="bc-number">BC Number: <span class="required">*</span></label>
+            <input type="number" id="bc-number" name="bc-number" required pattern="\d*" min="0"><br><br>
+            <label for="ib-number">IB Number: <span class="required">*</span></label>
+            <input type="number" id="ib-number" name="ib-number" required pattern="\d*" min="0"><br><br>
+            <label for="hatch_date">Hatch Date: <span class="required">*</span></label>
+            <input type="date" id="hatch_date" name="hatch_date"><br><br>
+            <label for="collection-date">Passage Date: <span class="required">*</span></label>
+            <input type="date" id="collection-date" name="collection-date" required><br><br>
+            <label for="next-passage">Next Passage: <span class="required">*</span></label>
+            <input type="date" id="next-passage" name="next-passage" required><br><br>
+            <label for="mating-line">Mating Line:</label>
+            <input type="text" id="mating-line" name="mating-line"><br>
+          </div>
+          <button type="submit">Submit</button>
+        </form>
+    </main>
+  </div>
+
+  <!-- Popup -->
+  <div class="popup">
+    <div id="popupContent"></div>
+  </div>
+  <div id="footer"></div>
+  </div>
+
+</body>
+</html>

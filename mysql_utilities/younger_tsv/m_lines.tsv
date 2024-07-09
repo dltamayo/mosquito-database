@@ -1,0 +1,43 @@
+yl_id	short_name	full_genotype	background	published	authors	creators	phenotype	phenotype_notes	genotype_notes	dna_avail	notes	maintenance
+YL001	GCaMP #1	QUAS-dTomato-T2A-GCaMP6s_3xP3-ECFP Line #1	LVP	33049200	"Jové et al., 2020"	"Meg Younger, Ben Matthews, Zachary Gilbert"	bright blue eyes and tail			2 set	"LV-47a-18 #1. Lab use save extra for giving to people. Meg, Veronica. keep 12 egg papers"	Active
+YL002	GCaMP #5	QUAS-dTomato-T2A-GCaMP6s_3xP3-ECFP Line #5	LVP			"Meg Younger, Ben Matthews, Zachary Gilbert"	dim blue eyes			1 set	"LV-47a-18 #5. Meg, Veronica. #5 is the brightest and can be maintained as well. Veronica (5/21)."	Active
+YL003	GCaMP #11	QUAS-Syt1-GCaMP6s_3xP3-ECFP Line #11	LVP			"Meg Younger, Ben Matthews, Zachary Gilbert"	blue eyes				"LV-17-18 #11, Meg"	Active
+YL004	GCaMP #14.1	QUAS-Syt1-GCaMP6s_3xP3-ECFP Line #14.1	LVP			"Meg Younger, Ben Matthews, Zachary Gilbert"	blue eyes and tail			1 set	"LV-17-18 #14.1, Meg"	Active
+YL005	ORCO-QF2	ORCO-QF2_3xP3-dsRed	LVP	35985288	"Herre et al., 2022"	"Meg Younger, Ben Matthews, Zachary Gilbert"	red	moustache pattern		out		Active
+YL006	IR25a-QF2	IR25a-QF2_3xP3-dsRed	LVP	35985288	"Herre et al., 2022"	"Meg Younger, Ben Matthews, Zachary Gilbert"	red			1 set		Active
+YL007	IR76b-QF2	IR76b-QF2_3xP3-dsRed	LVP	35985288	"Herre et al., 2022"	"Meg Younger, Ben Matthews, Zachary Gilbert"	red			2 set		Active
+YL008	IR8a-QF2	IR8a-QF2_3xP3-dsRed	LVP	35985288	"Herre et al., 2022"	"Meg Younger, Ben Matthews, Zachary Gilbert"	red			2 set	Originally female stock; sex linked; may be on both male and female chromosome 1	Active
+YL009	Gr3-QF2	Gr3-QF2_3xP3-dsRed	LVP	35985288	"Herre et al., 2022"	"Meg Younger, Ben Matthews, Zachary Gilbert"	red			1 set make more		Active
+YL010	Gr2-ECFP	Gr2-PUb-ECFP	ORL	24581501	"McMeniman et al., 2014"	Conor McMeniman	blue broad expression		Fwd: TCGAGGATTCGCTCAACTACG Rev: GCGGTACATTCGATGGCAAC ~3-4 kb Every 6 months		null mutant	Active
+YL011	Gr3-ECFP	Gr3-PUb-ECFP	ORL	24581501	"McMeniman et al., 2014"	Conor McMeniman	blue broad expression		Currently optimizing protocol (NL 5/21) Every 6 months	1 set	null mutant	Active
+YL012	Gr3-delta4	Gr3-delta4	ORL	24581501	"McMeniman et al., 2014"	Conor McMeniman	no fluorescence		Fwd: TTCGAAGAGGCCGTCATCGCTTA Rev: TCAAAGCCCTTTGGAAATCCTCC 388 bp Every 6 months Send out for sequencing	2 set	null mutant	Active
+YL013	mCD8:GFP 1.237 M&F	15xQUAS-mCD8:GFP Line 1.237M & 1.237F	LVP			"Meg Younger, Ben Matthews, Zachary Gilbert"	blue eyes			3 set	This line is sex-linked. Have been inbreed from both M and F islolated lines. Trevor. Chromosome location is mapped. On 1.	Active
+YL014	mCD8:GFP 2.255	15xQUAS-mCD8:GFP Line 2.255	LVP	31112133	"Matthews et al., 2019"	"Meg Younger, Ben Matthews, Zachary Gilbert"	bright blue eyes			2 set	Note: Old name Line M16/M9. This is the most used CD8:GFP line. I usually blood-feed it twice because it is in high use. Trevor. Chromosome location is mapped. On 2.	Active
+YL015	mCD8:GFP 3.143	"15xQUAS-mCD8:GFP 3.143 ""F10"""	LVP			"Meg Younger, Ben Matthews, Zachary Gilbert"	dim blue eyes			2 set	Chromosome location is mapped. On 3.	Active
+YL016	CsChr #9	QUAS-CsChr_3xP3-ECFP Line #9	LVP	unpublished		Trevor Sorrells	blue eyes			1set	Line is maintained by sorting for fluorescence; pupae are not sexed because this line is inbred. This CsChrimson line will be maintained as inbred until it is homozygoused. Trevor. Darred note- eggs received did not produce a lot of offspring	Active
+YL017	CsChr #2	QUAS-CsChr_3xP3-ECFP Line #2	LVP	unpublished		Trevor Sorrells	blue eyes			3 set	Line is maintained by sorting for fluorescence; pupae are not sexed because this line is inbred. This CsChrimson line will be maintained as inbred until it is homozygoused. Trevor. Darred note- eggs received did not produce a lot of offspring	Active
+YL018	Syt1:GCaMP6s Knock-in	Syt1:GCaMP6s_3xP3-dsRed Knock-in line	ORL	34590074	"Zhao et al., 2021"	Zhilei Zhao	red eyes				McBride internal ID 3007; This is a knock in of GCaMP6s to the Syt1 locus to create a fusion protein. No crossing to a driver needed.	Active
+YL019	"QUAS-C3PAGFP P3 chr1: 193,444,357"	"QUAS-C3PAGFP_3xP3-ECFP Line P3 chr1: 193,444,357"	ORL	unpublished		"Zhilei Zhao, David Tian"	blue eyes				McBride internal ID 5017	Active
+YL020	"QUAS-C3PAGFP P6 chr3: 268,352,394"	"QUAS-C3PAGFP_3xP3-ECFP Line P6 chr3: 268,352,394"	ORL	unpublished		"Zhilei Zhao, David Tian"	blue eyes				McBride internal ID 5018	Active
+YL021	"QUAS-jGCaMP7s-T2A-tdTomato P3 chr2: 40,603,460"	"QUAS-jGCaMP7s-T2A-tdTomato_3xP3-ECFP Line P3 chr2: 40,603,460"	ORL	unpublished		"Zhilei Zhao, David Tian"	blue eyes				McBride internal ID 5014	Active
+YL022	"QUAS-jGCaMP7c-T2A-tdTomato P4 chr1: 86,167,190"	"QUAS-jGCaMP7c-T2A-tdTomato_3xP3-ECFP Line P4 chr1: 86,167,190"	ORL	unpublished		"Zhilei Zhao, David Tian"	blue eyes				McBride internal ID 5015	Active
+YL023	"QUAS-jGCaMP7c-T2A-tdTomato P6 chr1: 305,193,203"	"QUAS-jGCaMP7c-T2A-tdTomato_3xP3-ECFP Line P6 chr1: 305,193,203"	ORL	unpublished		"Zhilei Zhao, David Tian"	blue eyes				McBride internal ID 5016	Active
+YL024	Syt1-TdTomato-T2A-GCaMP6s #13	QUAS-Syt1-TdTomato-T2A-GCaMP6s_3xP3-ECFP Line #13	LVP	unpublished		"Meg Younger, Ben Matthews, Zachary Gilbert"	bright blue eyes			1 set	LV-47B-18 #13. Meg	Active
+YL025	Syt1-TdTomato-T2A-GCaMP6s #18	QUAS-Syt1-TdTomato-T2A-GCaMP6s_3xP3-ECFP Line #18	LVP	unpublished		"Meg Younger, Ben Matthews, Zachary Gilbert"	bright blue eyes				LV-47B-18 #18. Meg	Active
+YL026	Ir25a-AD	Ir25a-QF2-AD_3xP3-EYFP	LVP	35985288	"Herre et al., 2022"	Margo Herre	yellow			1 set		Active
+YL027	Orco-DBD	Orco-QF2-DBD_3xP3-dsRed	LVP	35985288	"Herre et al., 2022"	Margo Herre	red	Moustache pattern		1 set make more		Active
+YL028	"Ir25a-AD, Orco-DBD"	"Ir25a-QF2-AD_3xP3-EYFP, Orco-QF2-DBD_3xP3-dsRed"	LVP	35985288	"Herre et al., 2022"	Margo Herre	yellow and red			2 set		Active
+YL029	GCaMP6s M13	"QUAS-GCaMP6s-T2A-TdTomato ""Line M13"""	LVP	31112133	"Matthews et al., 2019"	"Meg Younger, Ben Matthews, Zachary Gilbert"	blue eyes and tail			3 set	"Does not have a Mendelian ratio; usually blood-feed twice. Maintained by BC, keep for a year from May 2019. Check in with Meg to see if we can get rid of this line."	Active
+YL030	BRP-QF2w	BRP-QF2weak_3xP3-dsRed	ORL	33049200	"Jové et al., 2020"	Zhilei Zhao	dim red eyes				"Gx means have been crossed to LVP for the x-th time. Lab use, please collect more eggs. Veronica, Darred note- egg papers received were very sparse"	Active
+YL031	Orco5/5	Orco5/5	ORL	23719379	"DeGennaro et al., 2013"	Matt DeGennaro	no fluorescence		Fwd: CCGCACGCTGGGCATCTGGAATC Rev: ACGGATAGCACTGTAGTCACCAT 135 bp Every 3 months Send out for sequencing	2 sets	Genotyping protocol: https://docs.google.com/document/d/13NAxiTk7aHMRUcKIkAtmUrFPWvguGpbeKqBfpBe4PtE	Active
+YL032	Orco16/16	Orco16/16	ORL	23719379	"DeGennaro et al., 2013"	Matt DeGennaro	no fluorescence		Same as Orco5	1 set	See above	Active
+YL033	Kir2.1 #8	QUAS-Kir2.1_3xP3-ECFP Line #8	LVP	unpublished		Trevor Sorrells	bright blue eyes			1 set make more	"Mapped to chr3 139 megabases, BC6 IB4 currently"	Active
+YL034	TeTxLC #5	QUAS-TeTxLC_3xP3-ECFP Line #5	LVP	unpublished		Trevor Sorrells	bright blue eyes			out	To be fluorescence-sorted and inbred; tag-mapped to 1.193; relatively weak TetTx line. Trevor	Active
+YL035	TeTxLC #6	QUAS-TeTxLC_3xP3-ECFP Line #6	LVP	unpublished		Trevor Sorrells	bright blue tail			out	To be fluorescence-sorted and inbred; tag-mapped to 2.57; our strongest TetTx line. Trevor	Active
+YL036	Ir25a QF2/19 (female) x Ir25a 19/19 (male)	Ir25a-QF2/19 (female) x Ir25a 19/19 (male)	LVP	36261039	"DeObaldia et al., 2022"	Morita Takeshi	red	Heterozygous fluorescence only	See worksheet and guide from Takeshi			Active
+YL037	Ir25a QF2/BamHI (female) x Ir25a BamHI/BamHI (male)	Ir25a-QF2/BamHI (female) x Ir25a BamHI/BamHI (male)	LVP	36261039	"DeObaldia et al., 2022"	Morita Takeshi	red	Heterozygous fluorescence only	See worksheet and guide from Takeshi			Active
+YL038	Ir76b QF2/61 (female) x Ir76b 61/61 (male)	Ir76b-QF2/61 (female) x Ir76b 61/61 (male)	LVP	36261039	"DeObaldia et al., 2022"	Morita Takeshi	red	Heterozygous fluorescence only	See worksheet and guide from Takeshi			Active
+YL039	Ir76b QF2/32 (female) x Ir76b 32/32 (male)	Ir76b-QF2/32 (female) x Ir76b 32/32 (male)	LVP	36261039	"DeObaldia et al., 2022"	Morita Takeshi	red	Heterozygous fluorescence only	See worksheet and guide from Takeshi			Active
+YL040	ORL	Orlando	ORL				no fluorescence	WT		1 set		Active
+YL041	LVP	Liverpool (LVPIB19)	LVP				no fluorescence	WT		1 set		Active
+YL042	GR3ecfp*;IR25a-QF2*;QUAS-GCaMP6s-M13*	GR3ecfp*;IR25a-QF2*;QUAS-GCaMP6s-M13*	LVP				"red, blue broad expression"		all floating in red triple positive			Retired

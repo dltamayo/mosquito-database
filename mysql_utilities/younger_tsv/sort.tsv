@@ -1,0 +1,10 @@
+l_id	m_id	hatch_date	sort_date	line_name	marker_color	marker_location	fl_ratio	fl_total	notes
+9	2	2024-02-18	2024-02-22	GR3-QF2	red	Eyes	1.0	119	All larva expressed fluorescence but roughly 50% expressed spinal fluoresence pattern
+24	2	2024-02-18	2024-02-22	Syt1-TdTomato-T2A-GCaMP6s #13	blue	Eyes	0.3	400	
+34	2	2024-02-18	2024-02-22	TeTxLC #5	blue	Eyes and Tails	1.0	158	All larva expressed fluorescence
+3	2	2024-02-18	2024-02-22	GCaMP #11	blue	Eyes	1.0	200	
+1	2	2024-02-05	2024-02-09	GCaMP #1	blue	Eyes and Tails	0.1	400	
+1	2	2024-01-22	2024-01-26	GCaMP #1	blue	Eyes and Tails	0.2	400	
+5	2	2024-01-22	2024-01-26	ORCO-QF2	red	Eyes and Mustache	0.2	280	
+9	2	2024-01-22	2024-01-26	GR3-QF2	red	Eyes and Mustache	0.4	400	
+5	2	2024-01-08	2024-01-12	ORCO-QF2	red	Eyes and Mustache	0.3	400	

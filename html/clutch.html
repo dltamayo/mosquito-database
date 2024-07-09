@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Clutch Form - Younger Lab Database</title>
+  <link rel="stylesheet" href="../css/style.css"> <!-- Ensure the path to your CSS file is correct -->
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <script src="../JavaScript/script.js"></script>
+  <script>
+$(document).ready(function() {
+    const today = new Date().toISOString().split('T')[0];
+    document.getElementById('collection-date').value = today;
+
+    $.ajax({
+url: '../cgi-bin/dropdowns.py',
+        method: 'GET',
+        dataType: 'json',
+        data: {'selector': 'm_id_dropdown'},
+        success: function(data) {
+            populate_list("#name", data);
+        },
+        error: function(xhr, status, error) {
+            console.error('Error fetching data:', error);
+        }
+    });
+
+    $.ajax({
+url: '../cgi-bin/dropdowns.py',
+        method: 'GET',
+        dataType: 'json',
+        data: {'selector': 'l_id_dropdown'},
+        success: function(data) {
+            populate_list("#l_id", data);
+        },
+        error: function(xhr, status, error) {
+            console.error('Error fetching data:', error);
+        }
+    });
+
+    $("#l_id").change(function() {
+        $("#hatch_date").empty();
+        let l_id = $("#l_id").val();
+
+        $.ajax({
+url: '../cgi-bin/dropdowns.py',
+            method: 'GET',
+            dataType: 'json',
+            data: {'selector': 'hatch_date', 'l_id': l_id},
+            success: function(data) {
+                $("#hatch_date").val(data.default_date);
+            },
+            error: function(xhr, status, error) {
+                console.error('Error fetching hatch date:', error);
+            }
+        });
+    });
+
+    function populate_list(dropdown, json){
+        $(dropdown).empty();
+        $(dropdown).append('<option value="">Select Name</option>'); // Add default option
+        for (let row= 0; row<json.length; row++) {
+            let value = json[row][0];
+            let name = json[row][1];
+            let drop_down_row = `<option value=${value}>${name}</option>`;
+            $(dropdown).append(drop_down_row);
+        }
+    };
+
+    // Form submission with AJAX for seamless user experience
+    $('#clutchForm').submit(function(event) {
+    event.preventDefault();
+    var formData = $(this).serializeArray();
+
+    var popupContent = '<h2>Preview Data</h2><ul>';
+    formData.forEach(function(field) {
+        popupContent += `<li><strong>${field.name}:</strong> ${field.value}</li>`;
+    });
+    popupContent += '</ul><button id="confirmButton">Confirm</button><button id="goBackButton">Go Back</button>';
+    $('#popupContent').html(popupContent);
+    $('.popup').show();
+});
+
+$(document).on('click', '#confirmButton', function() {
+    var formData = $('#clutchForm').serializeArray();
+    $('.popup').hide();
+
+    $.ajax({
+        url: $('#clutchForm').attr('action'), // Get the form action URL
+        method: 'POST', // Use POST method
+        data: formData, // Send form data
+        success: function(response) {
+            console.log('Form data submitted successfully:', response);
+            // Show success message popup
+            $('#popupContent').html('<h2>Submitted</h2><br><p>' + response + '</p><button id="closePopupButton">Close</button>');
+            $('.popup').show();
+        },
+        error: function(xhr, status, error) {
+            console.error('Error submitting form data:', error);
+            // Show error message popup
+            $('#popupContent').html('<h2>Error</h2><br><p>There was an error submitting the form.</p><p>' + error + '</p><button id="closePopupButton">Close</button>');
+            $('.popup').show();
+        }
+    });
+});
+
+$(document).on('click', '#goBackButton, #closePopupButton', function() {
+    $('.popup').hide();
+});
+});
+
+  </script>
+</head>
+<body>
+  <div id="flex-container">
+  <div id="header-placeholder"></div>
+  <div class="main-content">
+  <main>
+    <div class="container">
+      <h2>Clutch Form</h2>
+      <br>
+<form id="clutchForm" action="../cgi-bin/clutch_insert.py" method="post">
+  <div class="form-field">     
+  <label for="name">Name: <span class="required">*</span></label>
+        <select id="name" name="name" required></select><br><br>
+
+        <label for="genotype">Genotype: <span class="required">*</span></label>
+        <select id="l_id" name="genotype" required></select><br><br>
+
+        <label for="hatch_date">Hatch Date: <span class="required">*</span></label>
+        <input type="date" id="hatch_date" name="hatch_date" required><br><br>
+
+        <label for="collection-date">Collection Date: <span class="required">*</span></label>
+        <input type="date" id="collection-date" name="collection-date" required><br><br>
+
+        <label for="clutch-number">Clutch Number: <span class="required">*</span></label>
+        <select id="clutch-number" name="clutch-number" required>
+          <option value="1">1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+        </select><br><br>
+
+        <label for="egg-papers">Egg Papers: <span class="required">*</span></label>
+        <select id="egg-papers" name="egg-papers" required>
+          <option value="1">1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+          <option value="4">4</option>
+          <option value="5">5</option>
+          <option value="6">6</option>
+          <option value="7">7</option>
+          <option value="8">8</option>
+          <option value="9">9</option>
+          <option value="10">10</option>
+        </select><br><br>
+
+        <button type="submit">Submit</button>
+  </div>
+      </form>
+    </div>
+  </main>
+  </div>
+  <div id="footer"></div>
+    <!-- Popup -->
+  <div class="popup">
+    <div id="popupContent"></div>
+  </div>
+  </div>
+</body>
+</html>

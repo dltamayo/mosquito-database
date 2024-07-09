@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lab Users - Younger Lab Database</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <link rel="stylesheet" href="https://cdn.datatables.net/2.0.7/css/dataTables.dataTables.css" />
+  <script src="https://cdn.datatables.net/2.0.7/js/dataTables.js"></script>
+  <script src="../JavaScript/script.js"></script>
+  <style>
+    #main table {
+        width: 50%;
+        border-collapse: collapse;
+    }
+
+    #main th, #main td {
+        padding: 8px;
+        text-align: left;
+        border-bottom: 1px solid #ddd;
+    }
+
+    #main th {
+        background-color: #f2f2f2;
+    }
+
+    #main tr:hover {
+        background-color: #f5f5f5;
+    }
+    #download_excel_btn{
+        text-align: center; 
+    }
+    #addUserButton {
+        padding-top: 5px;
+    }
+    #addUserButtonContainer {
+        text-align: center;
+        padding: 10px;
+    }
+</style>
+</head>
+<body>
+    <div id="flex-container">
+    <div id="header-placeholder"></div>
+    <div class="main-content">
+    <div id="tables">
+        <div id="table-form-container" class="hidden">
+            <form id="table_form">
+                <h2>Lab Members</h2>
+                <h3>Select a table:</h3>
+                <select id="table_selector" name="table_selector">
+                    <option value="active_members">Active Members</option>
+                    <option value="inactive_members">Inactive Members</option>
+                </select>
+                <button type="submit">Submit</button>
+            </form>
+            </div>
+        <div id="main"></div>
+  <div id="addUserButtonContainer">
+    <button id="addUserButton">Add New User</button>
+  </div>
+    </div>
+    </div>
+<div class="popup" id="popupForm">
+    <!-- Form content -->
+<form id="userForm" action="../cgi-bin/add_user.py">
+        <label for="f_name">First Name: <span class="required">*</span></label>
+        <input type="text" id="f_name" name="f_name" required><br><br>
+        <label for = "l_name"> Last Name: <span class="required">*</span></label>
+        <input type="text" id="l_name" name="l_name" required><br><br>
+        <label for="role">Role:</label>
+        <input type="text" id="role" name="role"><br><br>
+        <button type="submit">Submit</button>
+    </form>
+    <!-- Message and close option -->
+    <div id="formCompletionMessage" style="display: none;">
+        <p>Form completed.</p>
+        <button id="closePopupButton">Close</button>
+    </div>
+</div>
+<div id="footer"></div>
+</div>
+
+  <script>
+$(document).ready(function() {
+
+    // Function to reset the form and hide the completion message
+    function resetForm() {
+        $('#userForm')[0].reset(); // Reset form fields
+        $('#formCompletionMessage').hide(); // Hide completion message
+        $('#popupForm').find('form').show(); // Show form
+    }
+
+    // Show popup when "Add New User" button is clicked
+    $('#addUserButton').click(function() {
+        $('#popupForm').show();
+        resetForm(); // Reset form and hide completion message
+    });
+
+    // Close popup when clicking outside the form
+    $(document).mouseup(function(e) {
+        var popup = $('#popupForm');
+        if (!popup.is(e.target) && popup.has(e.target).length === 0) {
+            popup.hide();
+            resetForm(); // Reset form and hide completion message
+        }
+    });
+
+    // Handle form submission
+    $('#userForm').submit(function(event) {
+        event.preventDefault(); // Prevent default form submission
+        // Retrieve form data
+        var formData = {
+            f_name: $('#f_name').val(),
+            l_name: $('#l_name').val(),
+            role: $('#role').val()
+        };
+        // You can send formData using AJAX or perform any other action here
+        console.log(formData);
+        $.ajax({
+            url: $(this).attr('action'), // Get the form action URL
+            method: 'POST', // Use POST method
+            data: formData, // Send form data
+            success: function(response) {
+                console.log('Form data submitted successfully:', response);
+                // Optionally, you can hide the popup or show a success message here
+            },
+            error: function(xhr, status, error) {
+                console.error('Error submitting form data:', error);
+                // Optionally, you can show an error message here
+            }
+        });
+        // Show completion message and hide form
+        $('#formCompletionMessage').show();
+        $('#popupForm').find('form').hide();
+    });
+
+    // Close popup when "Close" button is clicked
+    $('#closePopupButton').click(function() {
+        $('#popupForm').hide();
+        resetForm(); // Reset form and hide completion message
+    });
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Strain Information - Younger Lab Database</title>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript" charset="UTF-8" src="https://www.gstatic.com/charts/51/loader.js"></script>
+    <link id="load-css-0" rel="stylesheet" type="text/css" href="https://www.gstatic.com/charts/51/css/core/tooltip.css">
+    <link id="load-css-1" rel="stylesheet" type="text/css" href="https://www.gstatic.com/charts/51/css/util/util.css">
+    <script type="text/javascript" charset="UTF-8" src="https://www.gstatic.com/charts/51/js/jsapi_compiled_default_module.js"></script>
+    <script type="text/javascript" charset="UTF-8" src="https://www.gstatic.com/charts/51/js/jsapi_compiled_graphics_module.js"></script>
+    <script type="text/javascript" charset="UTF-8" src="https://www.gstatic.com/charts/51/js/jsapi_compiled_ui_module.js"></script>
+    <script type="text/javascript" charset="UTF-8" src="https://www.gstatic.com/charts/51/js/jsapi_compiled_corechart_module.js"></script>
+    <link rel="stylesheet" href="../css/style.css">
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.datatables.net/2.0.7/css/dataTables.dataTables.css" />
+    <script src="https://cdn.datatables.net/2.0.7/js/dataTables.js"></script>
+    <script src="../JavaScript/script.js"></script>
+    <style>
+        .popup {
+        display: none;
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background-color: white;
+        padding: 20px;
+        border: 1px solid #000000;
+        border-radius: 5px;
+        z-index: 1000;
+    }
+    #addLineButton {
+        padding-top: 5px;
+    }
+    #addLineButtonContainer {
+        text-align: center;
+        padding: 10px;
+    }
+    </style>
+
+</head>
+<body>
+<div id="flex-container">
+    <div id="header-placeholder"></div>
+    <div class="main-content">
+    <div id="table-form-container" class="hidden">
+        <form id="table_form">
+            <h2>Mosquito Strains</h2>
+            <h3>Select a table:</h3>
+            <select id="table_selector" name="table_selector">
+                <option value="master">Active Lines</option>
+                <option value="retired">Retired Lines</option>
+                <option value="full_line_info">All Lines</option>
+            </select>
+            <button type="submit">Submit</button>
+        </form>
+        </div>
+    </div>
+    <div id="main"></div>
+<br>
+<div id="addLineButtonContainer">
+    <button id="addLineButton">Add New Line</button>
+  </div>
+  
+<div class="popup" id="popupForm">
+    <!-- Form content -->
+<form id="lineForm" action="../cgi-bin/add_line.py">
+       <label for="short_name">Short Name: <span class="required">*</span></label>
+        <input type="text" id="short_name" name="short_name" required placeholder="Short Name"><br>
+        <label for="full_genotype">Full Genotype: <span class="required">*</span></label>
+        <textarea type="text" id="full_genotype" name="full_genotype" required placeholder="Full Genotype"></textarea><br>
+        <!-- <label for="background">Background:</label>
+        <input type="text" id="background" name="background" placeholder="ORL or LVP"><br> -->
+        <label>Background strain: <span class="required">*</span></label>
+        <select id="background" name="background" required onchange="handleOtherOption('background', 'other_background')">
+          <option value="">Please select</option>
+          <option value="LVP">LVP</option>
+          <option value="ORL">ORL</option>
+          <option value="other">Other</option>
+        </select><br>
+        <input type="text" id="other_background" name="other_background" style="display:none;" placeholder="Enter background strain"/>
+        
+        <label for="phenotype">Phenotype:</label>
+        <textarea type="text" id="phenotype" name="phenotype" placeholder="Ex. bright blue eyes or not fluorescent"></textarea><br>
+        <label for="phenotype_notes">Phenotype Notes:</label>
+        <textarea type="text" id="phenotype_notes" name="phenotype_notes" placeholder="Phenotype Notes"></textarea><br>
+        <label for="maintenance">Maintenance: <span class="required">*</span></label>
+        <input type="radio" id="active" name="maintenance" value="Active" required>
+        <label for="active">Active</label>
+        <input type="radio" id="retired" name="maintenance" value="Retired" required>
+        <label for="retired">Retired</label><br>
+
+        <br>
+        <label for="published">PubMed ID:</label>
+        <input type="text" id="published" name="published" placeholder="PubMed ID or unpublished"><br>
+        <label for="authors">Authors:</label>
+        <input type="text" id="authors" name="authors" placeholder="Ex. DeObaldia et al., 2022"><br>
+        <label for="creators">Line Creators:</label>
+        <input type="text" id="creators" name="creators" placeholder="Ex. Meg Younger, Ben Matthews, Zachary Gilbert"><br>
+        <label for="genotype_notes">Genotype Notes:</label>
+        <textarea type="text" id="genotype_notes" name="genotype_notes" placeholder="Genotype Notes"></textarea><br>
+        <label for="dna_avail">DNA Available:</label>
+        <input type="text" id="dna_avail" name="dna_avail" placeholder=""><br>
+        <label for="notes">Notes:</label>
+        <textarea type="text" id="notes" name="notes" placeholder=""></textarea><br>
+        <button type="submit">Submit</button>
+    </form>
+    <!-- Message and close option -->
+    <div id="formCompletionMessage" style="display: none;">
+        <p>Form completed.</p>
+        <button id="closePopupButton">Close</button>
+    </div>
+</div>
+<div id="footer"></div>
+</div>
+<script>
+function handleOtherOption(selectId, inputId) {
+      var select = document.getElementById(selectId);
+      var input = document.getElementById(inputId);
+      if (select.value === 'other') {
+        input.style.display = 'block';
+      } else {
+        input.style.display = 'none';
+      }
+    }
+
+$(document).ready(function() {
+
+// Function to reset the form and hide the completion message
+function resetForm() {
+    $('#lineForm')[0].reset(); // Reset form fields
+    $('#formCompletionMessage').hide(); // Hide completion message
+    $('#popupForm').find('form').show(); // Show form
+}
+
+// Show popup when "Add New User" button is clicked
+$('#addLineButton').click(function() {
+    $('#popupForm').show();
+    resetForm(); // Reset form and hide completion message
+});
+
+// Close popup when clicking outside the form
+$(document).mouseup(function(e) {
+    var popup = $('#popupForm');
+    if (!popup.is(e.target) && popup.has(e.target).length === 0) {
+        popup.hide();
+        resetForm(); // Reset form and hide completion message
+    }
+});
+
+// Handle form submission
+$('#lineForm').submit(function(event) {
+    event.preventDefault(); // Prevent default form submission
+    // Retrieve form data
+    var formData = {
+        short_name: $('#short_name').val(),
+        full_genotype: $('#full_genotype').val(),
+        background: $('#background').val() === 'other'
+            ? $('#other_background').val()
+            : $('#background').val(),
+        published: $('#published').val(),
+        authors: $('#authors').val(),
+        creators: $('#creators').val(),
+        phenotype: $('#phenotype').val(),
+        phenotype_notes: $('#phenotype_notes').val(),
+        genotype_notes: $('#genotype_notes').val(),
+        dna_avail: $('#dna_avail').val(),
+        notes: $('#notes').val(),
+        maintenance: $('input[name="maintenance"]:checked').val(),
+    };
+    // You can send formData using AJAX or perform any other action here
+    console.log(formData);
+    $.ajax({
+        url: $(this).attr('action'), // Get the form action URL
+        method: 'POST', // Use POST method
+        data: formData, // Send form data
+        success: function(response) {
+            console.log('Form data submitted successfully:', response);
+            // Optionally, you can hide the popup or show a success message here
+        },
+        error: function(xhr, status, error) {
+            console.error('Error submitting form data:', error);
+            // Optionally, you can show an error message here
+        }
+    });
+    // Show completion message and hide form
+    $('#formCompletionMessage').show();
+    $('#popupForm').find('form').hide();
+});
+
+// Close popup when "Close" button is clicked
+$('#closePopupButton').click(function() {
+    $('#popupForm').hide();
+    resetForm(); // Reset form and hide completion message
+});
+});
+</script>
+</body>
+</html>

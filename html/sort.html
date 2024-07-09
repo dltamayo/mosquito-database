@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sorting Form - Younger Lab Database</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <script src="../JavaScript/script.js"></script>
+  <script>
+$(document).ready(function() {
+  const today = new Date().toISOString().split('T')[0];
+  document.getElementById('sort-date').value = today;
+
+  function populate_list(dropdown, json, label) {
+    $(dropdown).empty();
+    // Append "Select" option with the specified label
+    $(dropdown).append('<option value="">' + label + '</option>');
+    json.forEach(function(item) {
+      let option = `<option value=${item[0]}>${item[1]}</option>`;
+      $(dropdown).append(option);
+    });
+  }
+
+  ['m_id_dropdown', 'l_id_dropdown'].forEach(selector => {
+    $.ajax({
+url: '../cgi-bin/dropdowns.py',
+      method: 'GET',
+      dataType: 'json',
+      data: { 'selector': selector },
+      success: function(data) {
+        // Determine label based on selector
+        let label = (selector === 'm_id_dropdown') ? 'Select Name' : 'Select Line';
+        populate_list(`#${selector === 'm_id_dropdown' ? 'name' : 'l_id'}`, data, label);
+      },
+      error: function(xhr, status, error) {
+        console.error(`Error fetching data for ${selector}:`, error);
+      }
+    });
+  });
+
+
+      $("#l_id").change(function() {
+        $.ajax({
+url: '../cgi-bin/dropdowns.py',
+          method: 'GET',
+          dataType: 'json',
+          data: { 'selector': 'hatch_date', 'l_id': this.value },
+          success: function(data) {
+            $("#hatch_date").val(data.default_date);
+          },
+          error: function(xhr, status, error) {
+            console.error('Error fetching hatch date:', error);
+          }
+        });
+      });
+
+      $('#sortingForm').submit(function(event) {
+    event.preventDefault();
+    var formData = $(this).serializeArray();
+    // Adjust the color field if needed
+    formData.forEach(function(field) {
+        if (field.name === 'marker_color' && field.value === 'other') {
+            // Find the value of 'other_background' and set it to background
+            var otherColorValue = $('#otherColorInput').val();
+            field.value = otherColorValue;
+        }
+        if (field.name === 'marker_location' && field.value === 'other') {
+            // Find the value of 'other_background' and set it to background
+            var otherLocationValue = $('#otherLocationInput').val();
+            field.value = otherLocationValue;
+        }
+    });
+    formData = formData.filter(function(field) {
+    // Replace 'field1' and 'field2' with the actual names of the fields you want to exclude
+    return field.name !== 'otherColor' && field.name !== 'otherLocation';
+});
+
+    var popupContent = '<h2>Preview Data</h2><ul>';
+    formData.forEach(function(field) {
+        popupContent += `<li><strong>${field.name}:</strong> ${field.value}</li>`;
+    });
+    popupContent += '</ul><button id="confirmButton">Confirm</button><button id="goBackButton">Go Back</button>';
+    $('#popupContent').html(popupContent);
+    $('.popup').show();
+});
+
+$(document).on('click', '#confirmButton', function() {
+    var formData = $('#sortingForm').serializeArray();
+    // Adjust the color and location fields if needed
+    formData.forEach(function(field) {
+        if (field.name === 'marker_color' && field.value === 'other') {
+            // Find the value of 'other_background' and set it to background
+            var otherColorValue = $('#otherColorInput').val();
+            field.value = otherColorValue;
+        }
+        if (field.name === 'marker_location' && field.value === 'other') {
+            // Find the value of 'other_background' and set it to background
+            var otherLocationValue = $('#otherLocationInput').val();
+            field.value = otherLocationValue;
+        }
+    });
+    formData = formData.filter(function(field) {
+    // Replace 'field1' and 'field2' with the actual names of the fields you want to exclude
+    return field.name !== 'otherColor' && field.name !== 'otherLocation';
+});
+    $('.popup').hide();
+
+    $.ajax({
+        url: $('#sortingForm').attr('action'), // Get the form action URL
+        method: 'POST', // Use POST method
+        data: formData, // Send form data
+        success: function(response) {
+            console.log('Form data submitted successfully:', response);
+            // Show success message popup
+            $('#popupContent').html('<h2>Submitted</h2><br><p>' + response + '</p><button id="closePopupButton">Close</button>');
+            $('.popup').show();
+        },
+        error: function(xhr, status, error) {
+            console.error('Error submitting form data:', error);
+            // Show error message popup
+            $('#popupContent').html('<h2>Error</h2><br><p>There was an error submitting the form.</p><p>' + error + '</p><button id="closePopupButton">Close</button>');
+            $('.popup').show();
+        }
+    });
+});
+
+$(document).on('click', '#goBackButton, #closePopupButton', function() {
+    $('.popup').hide();
+});
+
+
+
+      // Handle showing/hiding of fluorescent details
+      $('select[name="fluorescent"]').change(function() {
+        if ($(this).val() === 'yes') {
+          $('#fluorescentDetails').slideDown();
+        } else {
+          $('#fluorescentDetails').slideUp();
+        }
+      });
+
+      function handleOtherOption(selectId, inputId) {
+        var select = document.getElementById(selectId);
+        var input = document.getElementById(inputId);
+        if (select.value === 'other') {
+          input.style.display = 'block';
+        } else {
+          input.style.display = 'none';
+        }
+      }
+
+      function updateFluorescenceValue() {
+        var slider = document.getElementById('fluorescencePercentage');
+        var output = document.getElementById('fluorescenceValue');
+        output.textContent = slider.value;
+      }
+
+      window.handleOtherOption = handleOtherOption;
+      window.updateFluorescenceValue = updateFluorescenceValue;
+    });
+  </script>
+</head>
+<body>
+  <div id="flex-container">
+  <div id="header-placeholder"></div>
+  <div class="main-content">
+    <main>
+      <div class="container">
+        <h2>Sorting Form</h2>
+        <br>
+<form id="sortingForm" action="../cgi-bin/sort_insert.py" method="post">
+          <div class="form-field">
+            <label for="name">Name: <span class="required">*</span></label>
+            <select id="name" name="m_id" required></select><br><br>
+            <label for="genotype">Genotype: <span class="required">*</span></label>
+            <select id="l_id" name="l_id" required></select><br><br>
+            <label for="hatch_date">Hatch Date: <span class="required">*</span></label>
+            <input type="date" id="hatch_date" name="hatch_date" required><br><br>
+            <label for="sort-date">Sort Date: <span class="required">*</span></label>
+            <input type="date" id="sort-date" name="sort_date" required>
+          </div>
+
+              <div class="form-field">
+                <label>Color:</label>
+                <select id="colorSelect" name="marker_color" onchange="handleOtherOption('colorSelect', 'otherColorInput')">
+                  <option value="">Please select</option>
+                  <option value="Blue">Blue</option>
+                  <option value="Red">Red</option>
+                  <option value="Yellow">Yellow</option>
+                  <option value="None">None</option>
+                  <option value="other">Other</option>
+                </select>
+                <input type="text" id="otherColorInput" name="otherColor" style="display:none;" placeholder="Enter color"/>
+              </div>
+
+              <!-- Marker Location Field -->
+              <div class="form-field">
+                <label>Marker location:</label>
+                <select id="locationSelect" name="marker_location" onchange="handleOtherOption('locationSelect', 'otherLocationInput')">
+                  <option value="">Please select</option>
+                  <option value="Eye">Eye</option>
+                  <option value="Tail">Tail</option>
+                  <option value="Broad">Broad</option>
+                  <option value="None">None</option>
+                  <option value="other">Other</option>
+                </select>
+                <input type="text" id="otherLocationInput" name="otherLocation" style="display:none;" placeholder="Enter location"/>
+              </div>
+
+              <!-- Updated Fluorescence Percentage Slider -->
+              <div class="form-field">
+                <label>% Fluorescence: <span class="required">*</span></label>
+                <input type="range" id="fluorescencePercentage" name="fluorescencePercentage" min="0" max="1" step="0.1" value="0.5" oninput="updateFluorescenceValue()">
+                <span id="fluorescenceValue">0.5</span>
+              </div>
+
+              <!-- Total Fluorescent Field -->
+              <div class="form-field">
+                <label>Total Fluorescent: <span class="required">*</span></label>
+                <input type="number" name="totalFluorescent" required pattern="\d*" title="Only whole numbers are allowed." min="0">
+              </div>
+
+              <!-- Notes Field -->
+              <div class="form-field">
+                <label for="notes">Notes:</label>
+                <textarea id="notes" name="notes" placeholder="Enter any additional notes here"></textarea>
+              </div>
+              
+              <button type="submit" name="form_submit">Submit</button>
+              <br><br> <!-- Added space -->
+        </form>
+      </div>
+      </main>
+    </div>
+  <!-- Popup -->
+  <div class="popup">
+    <div id="popupContent"></div>
+  </div>
+  <div id="footer"></div>
+  </div>
+</body>
+</html>
+
