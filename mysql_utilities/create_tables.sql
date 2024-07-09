@@ -1,5 +1,5 @@
 -- specify database here
--- use Team_4;
+-- use "database";
 
 drop table if exists clutch;
 drop table if exists sort;
